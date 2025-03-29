@@ -535,10 +535,12 @@ async def pass_through_request(  # noqa: PLR0915
                 params=requested_query_params,
             )
         else:
+            # Ensure Content-Length is not in headers before sending request
+            headers_for_request = {k: v for k, v in headers.items() if k.lower() != "content-length"}
             response = await async_client.request(
                 method=request.method,
                 url=url,
-                headers=headers,
+                headers=headers_for_request,
                 params=requested_query_params,
                 json=_parsed_body,
             )

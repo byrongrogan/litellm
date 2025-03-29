@@ -281,6 +281,10 @@ async def bedrock_proxy_route(
     # This will sign the request without Content-Length header
     sigv4.add_auth(_request)
     prepped = _request.prepare()
+    
+    # Ensure Content-Length is not included in headers to let httpx calculate it properly
+    prepped_headers = dict(prepped.headers)
+    prepped_headers.pop("Content-Length", None)
 
     ## check for streaming
     is_streaming_request = False
@@ -291,7 +295,7 @@ async def bedrock_proxy_route(
     endpoint_func = create_pass_through_route(
         endpoint=endpoint,
         target=str(prepped.url),
-        custom_headers=prepped.headers,  # type: ignore
+        custom_headers=prepped_headers,  # type: ignore
     )  # dynamically construct pass-through endpoint based on incoming path
     received_value = await endpoint_func(
         request,
