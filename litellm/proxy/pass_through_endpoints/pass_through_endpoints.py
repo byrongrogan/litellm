@@ -757,10 +757,9 @@ def create_pass_through_route(
             fastapi_response: Response,
             user_api_key_dict: UserAPIKeyAuth = Depends(user_api_key_auth),
             query_params: Optional[dict] = None,
-            custom_body: Optional[dict] = None,
-            stream: Optional[
-                bool
-            ] = None,  # if pass-through endpoint is a streaming request
+            custom_body: Optional[Union[dict, str]] = None,
+            stream: Optional[bool] = None,  # if pass-through endpoint is a streaming request
+            raw_data: Optional[bool] = False,  # if the body is already serialized
         ):
             return await pass_through_request(  # type: ignore
                 request=request,
@@ -772,6 +771,7 @@ def create_pass_through_route(
                 query_params=query_params,
                 stream=stream,
                 custom_body=custom_body,
+                raw_data=raw_data,
             )
 
     return endpoint_func
