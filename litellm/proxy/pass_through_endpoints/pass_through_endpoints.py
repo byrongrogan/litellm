@@ -364,11 +364,12 @@ async def pass_through_request(  # noqa: PLR0915
     target: str,
     custom_headers: dict,
     user_api_key_dict: UserAPIKeyAuth,
-    custom_body: Optional[dict] = None,
+    custom_body: Optional[Union[dict, str]] = None,
     forward_headers: Optional[bool] = False,
     merge_query_params: Optional[bool] = False,
     query_params: Optional[dict] = None,
     stream: Optional[bool] = None,
+    raw_data: Optional[bool] = False,
 ):
     litellm_call_id = str(uuid.uuid4())
     url: Optional[httpx.URL] = None
@@ -535,15 +536,26 @@ async def pass_through_request(  # noqa: PLR0915
                 params=requested_query_params,
             )
         else:
-            # Ensure Content-Length is not in headers before sending request
-            headers_for_request = {k: v for k, v in headers.items() if k.lower() != "content-length"}
-            response = await async_client.request(
-                method=request.method,
-                url=url,
-                headers=headers_for_request,
-                params=requested_query_params,
-                json=_parsed_body,
-            )
+            # Use the exact headers as provided (especially important for AWS signed requests)
+            if raw_data and isinstance(_parsed_body, str):
+                # For raw string data (typically used with AWS SigV4 authentication)
+                # Use exact string content without any re-serialization
+                response = await async_client.request(
+                    method=request.method,
+                    url=url,
+                    headers=headers,
+                    params=requested_query_params,
+                    content=_parsed_body,  # Use content param for raw string data
+                )
+            else:
+                # Standard JSON object handling
+                response = await async_client.request(
+                    method=request.method,
+                    url=url,
+                    headers=headers,
+                    params=requested_query_params,
+                    json=_parsed_body,
+                )
 
         verbose_proxy_logger.debug("response.headers= %s", response.headers)
 

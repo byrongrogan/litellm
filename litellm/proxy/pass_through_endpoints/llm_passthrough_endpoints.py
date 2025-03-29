@@ -272,19 +272,22 @@ async def bedrock_proxy_route(
         data = await request.json()
     except Exception as e:
         raise HTTPException(status_code=400, detail={"error": e})
-        
-    # Create the request without Content-Length
+    
+    # Get the JSON string for the body - IMPORTANT: use the exact same serialization
+    # AWS is very sensitive about exact JSON serialization for signature calculation
+    json_body = json.dumps(data)
+    
+    # Create the request with the exact body that will be sent
     _request = AWSRequest(
-        method="POST", url=str(updated_url), data=json.dumps(data), headers=headers
+        method="POST", url=str(updated_url), data=json_body, headers=headers
     )
     
-    # This will sign the request without Content-Length header
+    # Sign the request with the exact body
     sigv4.add_auth(_request)
     prepped = _request.prepare()
     
-    # Ensure Content-Length is not included in headers to let httpx calculate it properly
+    # Use headers exactly as signed by AWS
     prepped_headers = dict(prepped.headers)
-    prepped_headers.pop("Content-Length", None)
 
     ## check for streaming
     is_streaming_request = False
@@ -297,13 +300,16 @@ async def bedrock_proxy_route(
         target=str(prepped.url),
         custom_headers=prepped_headers,  # type: ignore
     )  # dynamically construct pass-through endpoint based on incoming path
+    # IMPORTANT: Use the EXACT same JSON string that was used for signing
+    # Any re-serialization will break the AWS signature
     received_value = await endpoint_func(
         request,
         fastapi_response,
         user_api_key_dict,
         stream=is_streaming_request,  # type: ignore
-        custom_body=data,  # type: ignore
+        custom_body=json_body,  # Pass the exact JSON string, not the Python dict
         query_params={},  # type: ignore
+        raw_data=True,  # Signal that we're sending raw string data, not a dict to be serialized
     )
 
     return received_value
