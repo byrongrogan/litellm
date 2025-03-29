@@ -263,12 +263,16 @@ async def bedrock_proxy_route(
 
     credentials: Credentials = BedrockConverseLLM().get_credentials()
     sigv4 = SigV4Auth(credentials, "bedrock", aws_region_name)
-    headers = {"Content-Type": "application/json"}
+    
+    # Explicitly include host header for AWS SigV4 canonical request
+    headers = {"Content-Type": "application/json", "host": updated_url.host}
+    
     # Assuming the body contains JSON data, parse it
     try:
         data = await request.json()
     except Exception as e:
         raise HTTPException(status_code=400, detail={"error": e})
+        
     _request = AWSRequest(
         method="POST", url=str(updated_url), data=json.dumps(data), headers=headers
     )
