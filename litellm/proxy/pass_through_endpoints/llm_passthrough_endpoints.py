@@ -264,14 +264,21 @@ async def bedrock_proxy_route(
     credentials: Credentials = BedrockConverseLLM().get_credentials()
     sigv4 = SigV4Auth(credentials, "bedrock", aws_region_name)
     headers = {"Content-Type": "application/json"}
+    # Explicitly exclude Content-Length as we want httpx to calculate it properly
+    headers.pop("Content-Length", None)
+    
     # Assuming the body contains JSON data, parse it
     try:
         data = await request.json()
     except Exception as e:
         raise HTTPException(status_code=400, detail={"error": e})
+        
+    # Create the request without Content-Length
     _request = AWSRequest(
         method="POST", url=str(updated_url), data=json.dumps(data), headers=headers
     )
+    
+    # This will sign the request without Content-Length header
     sigv4.add_auth(_request)
     prepped = _request.prepare()
 
