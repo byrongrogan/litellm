@@ -2,7 +2,7 @@
         🚅 LiteLLM
     </h1>
     <p align="center">
-        <p align="center">Call 100+ LLMs in OpenAI format. [Bedrock, Azure, OpenAI, VertexAI, Anthropic, Groq, etc.]
+        <p align="center">✨ Call 100+ LLMs in OpenAI format — simple, fast, and delightful! [Bedrock, Azure, OpenAI, VertexAI, Anthropic, Groq, and so many more!]
         </p>
         <p align="center">
         <a href="https://render.com/deploy?repo=https://github.com/BerriAI/litellm" target="_blank" rel="nofollow"><img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render"></a>
@@ -220,7 +220,7 @@ curl -X POST 'http://0.0.0.0:4000/v1/chat/completions' \
 
 ## How to use LiteLLM
 
-You can use LiteLLM through either the Proxy Server or Python SDK. Both gives you a unified interface to access multiple LLMs (100+ LLMs). Choose the option that best fits your needs:
+You can use LiteLLM through either the Proxy Server or Python SDK. Both give you a unified interface to access 100+ LLMs — pick whichever fits your workflow and start building! 🎉
 
 <table style={{width: '100%', tableLayout: 'fixed'}}>
 <thead>
@@ -256,7 +256,7 @@ LiteLLM Performance: **8ms P95 latency** at 1k RPS (See benchmarks [here](https:
 
 **Stable Release:** Use docker images with the `-stable` tag. These have undergone 12 hour load tests, before being published. [More information about the release cycle here](https://docs.litellm.ai/docs/proxy/release_cycle)
 
-Support for more providers. Missing a provider or LLM Platform, raise a [feature request](https://github.com/BerriAI/litellm/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml&title=%5BFeature%5D%3A+).
+Don't see your favorite provider? We'd love to add it! Raise a [feature request](https://github.com/BerriAI/litellm/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml&title=%5BFeature%5D%3A+) and help us grow the ecosystem. 🌱
 
 ## OSS Adopters 
 
@@ -378,40 +378,44 @@ Support for more providers. Missing a provider or LLM Platform, raise a [feature
 
 [**Read the Docs**](https://docs.litellm.ai/docs/)
 
-## Run in Developer mode
+## Run in Developer Mode 🛠️
+
+Ready to hack on LiteLLM? Here's how to get your local environment up and running in no time!
+
 ### Services
-1. Setup .env file in root
-2. Run dependant services `docker-compose up db prometheus`
+1. Set up your `.env` file in the root directory
+2. Spin up dependent services: `docker-compose up db prometheus`
 
 ### Backend
-1. (In root) create virtual environment `python -m venv .venv`
-2. Activate virtual environment `source .venv/bin/activate`
-3. Install dependencies `pip install -e ".[all]"`
-4. `pip install prisma`
-5. `prisma generate`
-6. Start proxy backend `python litellm/proxy/proxy_cli.py`
+1. (In root) Create a virtual environment: `python -m venv .venv`
+2. Activate it: `source .venv/bin/activate`
+3. Install dependencies: `pip install -e ".[all]"`
+4. Install Prisma: `pip install prisma`
+5. Generate the Prisma client: `prisma generate`
+6. Start the proxy backend: `python litellm/proxy/proxy_cli.py`
 
 ### Frontend
 1. Navigate to `ui/litellm-dashboard`
-2. Install dependencies `npm install`
-3. Run `npm run dev` to start the dashboard
+2. Install dependencies: `npm install`
+3. Start the dev server: `npm run dev` 🚀
 
-# Enterprise
-For companies that need better security, user management and professional support
+# Enterprise 🏢
 
-[Talk to founders](https://calendly.com/d/cx9p-5yf-2nm/litellm-introductions)
+Need enterprise-grade security, user management, and dedicated support? We've got you covered!
 
-This covers:
-- ✅ **Features under the [LiteLLM Commercial License](https://docs.litellm.ai/docs/proxy/enterprise):**
-- ✅ **Feature Prioritization**
-- ✅ **Custom Integrations**
-- ✅ **Professional Support - Dedicated discord + slack**
-- ✅ **Custom SLAs**
-- ✅ **Secure access with Single Sign-On**
+[Talk to our founders](https://calendly.com/d/cx9p-5yf-2nm/litellm-introductions) — we'd love to chat about how LiteLLM can work for your team.
 
-# Contributing
+What you get:
+- ✅ **Features under the [LiteLLM Commercial License](https://docs.litellm.ai/docs/proxy/enterprise)**
+- ✅ **Feature Prioritization** — your needs come first
+- ✅ **Custom Integrations** — we'll build to fit your stack
+- ✅ **Professional Support** — dedicated Discord + Slack channels
+- ✅ **Custom SLAs** — reliability you can count on
+- ✅ **Secure access with Single Sign-On** — enterprise auth made easy
 
-We welcome contributions to LiteLLM! Whether you're fixing bugs, adding features, or improving documentation, we appreciate your help.
+# Contributing 🤝
+
+We absolutely love contributions to LiteLLM! Whether you're squashing bugs, adding shiny new features, or improving docs — every bit of help makes LiteLLM better for everyone. You're awesome for considering it!
 
 ## Quick Start for Contributors
 
@@ -444,19 +448,23 @@ Our automated checks include:
 All these checks must pass before your PR can be merged.
 
 
-# Support / talk with founders
+# Support / Talk with the Founders 💬
 
-- [Schedule Demo 👋](https://calendly.com/d/4mp-gd3-k5k/berriai-1-1-onboarding-litellm-hosted-version)
-- [Community Discord 💭](https://discord.gg/wuPM9dRgDw)
-- [Community Slack 💭](https://www.litellm.ai/support)
-- Our numbers 📞 +1 (770) 8783-106 / ‭+1 (412) 618-6238‬
-- Our emails ✉️ ishaan@berri.ai / krrish@berri.ai
+We genuinely love hearing from our users! Don't be a stranger — reach out anytime:
 
-# Why did we build this
+- [Schedule a Demo 👋](https://calendly.com/d/4mp-gd3-k5k/berriai-1-1-onboarding-litellm-hosted-version) — let us show you what LiteLLM can do
+- [Community Discord 💭](https://discord.gg/wuPM9dRgDw) — join thousands of builders
+- [Community Slack 💭](https://www.litellm.ai/support) — get help fast
+- Call us 📞 +1 (770) 8783-106 / ‭+1 (412) 618-6238‬
+- Email us ✉️ ishaan@berri.ai / krrish@berri.ai
 
-- **Need for simplicity**: Our code started to get extremely complicated managing & translating calls between Azure, OpenAI and Cohere.
+# Why Did We Build This? 💡
 
-# Contributors
+- **Need for simplicity**: Managing and translating calls between Azure, OpenAI, Cohere (and dozens more) was getting really painful. We figured if we were struggling with it, others were too — so we built the solution we wished existed!
+
+# Contributors 🌟
+
+A huge thank you to everyone who has contributed to LiteLLM — you're the reason this project keeps getting better!
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
